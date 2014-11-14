@@ -19,9 +19,9 @@ for tilings 0 to 6 (since 0.1 + (6 * 0.6)/8 = 0.1 + 0.45 = 0.55). 0.55 is less t
 so the value is still in the first tile of the tiling. Therefore the input point
 (0.1,0.1) will be in the first tile of each tiling from tiling 0 to 6. The first tile
 of tilings 0 to 7 are 0, 121, 242, 363, 484, 605, and 726. Note that the first tile
-of each tiling is numTiles * N where N is the tiling number. Also note that the general
+of each tiling is NumTilesPerTiling * N where N is the tiling number. Also note that the general
 formula for the index of a tile in the 1D array that stores all the tiles for all the 
-tilings is InputSpaceTileNum + NumTiles * N where N is the index of the tiling.
+tilings is InputSpaceTileNum + NumTilesPerTiling * N where N is the index of the tiling.
 
 Q3 + Q4:
 If in1 = 0.1 and in2 = 0.1, the coordinates in the 8th tiling are 0.1 + (7*0.6)/8 =  0.1 
@@ -29,5 +29,19 @@ If in1 = 0.1 and in2 = 0.1, the coordinates in the 8th tiling are 0.1 + (7*0.6)/
 is in the second tile of the second row of tiles in the 8th tiling (ie tiling with index
 7). If the index of the first tile in this tiling was 0, the index of this tile would be
 12 (ie tile 13) (can confirm this by counting the tiles). However, the index of the first 
-tile of this tiling is numTiles * N = 121 * 7 =  847. Therefore, in this tiling, the index
+tile of this tiling is NumTilesPerTiling * N = 121 * 7 =  847. Therefore, in this tiling, the index
 is 847 + 12 = 859
+
+Q5:
+The maximum tile index is the index of the final tile of the last tiling (tiling with index
+7). Given the answer from Q3 and Q4, the first tile of the last tiling is NumTilesPerTiling * N
+= 121 * 7 = 847. The last tile of the tiling is 120 indices after the first index (121 tiles
+in the tiling). Therefore the last tile of the tiling is 967.
+
+Q6:
+
+Output of Tilecoder.py:
+Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 859]
+Tile indices for input ( 4.0 , 2.0 ) are :  [39, 160, 281, 403, 524, 645, 777, 898]
+Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846, 967]
+Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
