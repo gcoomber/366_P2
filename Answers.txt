@@ -39,7 +39,13 @@ The maximum tile index is the index of the final tile of the last tiling (tiling
 in the tiling). Therefore the last tile of the tiling is 967.
 
 Q6:
-The second and fourth example prints should have similar values because
+The second and fourth example prints should have similar values because the input points
+for the second and forth example are very close. (4.0, 2.0) vs (4.0, 2.1). The indicies
+are be the same for the two points for all tilings except the tilings with index 4 and
+5. The point with 2.1 is 0.1 away from 2.0. The point with 2.1 is shifted over by 0.6/8
+each tiling. Therefore, it is classified in a new tile before the point with 2.0 (this
+happens at tiling with index 4). They remain in separate tiles for subsequent tiling until
+the point with 2.0 catches up and is reclassified into the same tile as the point with 2.1.
 
 Output of Tilecoder.py:
 Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 859]
@@ -48,16 +54,18 @@ Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846
 Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
 
 Part 2:
+
 Output for 3:
 Georges-MacBook-Air:p2 gcoomber$ python3 SuperLearn.py 
 Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 859]
 Tile indices for input ( 4.0 , 2.0 ) are :  [39, 160, 281, 403, 524, 645, 777, 898]
 Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846, 967]
 Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
-Example ( 0.1 , 0.1 , 2.0 ):     f before learning:  0.0     f after learning :  1.6
-Example ( 4.0 , 2.0 , -1.0 ):     f before learning:  0.0     f after learning :  -0.8
-Example ( 5.99 , 5.99 , 3.0 ):     f before learning:  0.0     f after learning :  2.4
-Example ( 4.0 , 2.1 , -1.0 ):     f before learning:  -0.6     f after learning :  -0.92
+Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
+Example ( 0.1 , 0.1 , 2.0 ):     f before learning:  0.0     f after learning :  0.2
+Example ( 4.0 , 2.0 , -1.0 ):     f before learning:  0.0     f after learning :  -0.1
+Example ( 5.99 , 5.99 , 3.0 ):     f before learning:  0.0     f after learning :  0.3
+Example ( 4.0 , 2.1 , -1.0 ):     f before learning:  -0.075     f after learning :  -0.1675
 
 The before value of the fourth point should be nonzero because the input coordinates 
 of the fourth point are very close to the input coordinates of the second point (4.0, 2.0)
@@ -73,17 +81,17 @@ Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 85
 Tile indices for input ( 4.0 , 2.0 ) are :  [39, 160, 281, 403, 524, 645, 777, 898]
 Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846, 967]
 Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
-The estimated MSE:  0.25083173424
-The estimated MSE:  0.0704422901425
-The estimated MSE:  0.0262960695014
-The estimated MSE:  0.0163425076605
-The estimated MSE:  0.012811592748
-The estimated MSE:  0.0123895048276
-The estimated MSE:  0.0115280912055
-The estimated MSE:  0.0115022847118
-The estimated MSE:  0.0114634491669
-The estimated MSE:  0.010858950737
-The estimated MSE:  0.0108452742465
+The estimated MSE:  0.262887693352
+The estimated MSE:  0.0550328883111
+The estimated MSE:  0.0203256278163
+The estimated MSE:  0.0140740020921
+The estimated MSE:  0.0121410158657
+The estimated MSE:  0.0118655238685
+The estimated MSE:  0.0118533617433
+The estimated MSE:  0.0113831988978
+The estimated MSE:  0.0110173573188
+The estimated MSE:  0.0114675495645
+The estimated MSE:  0.0112186501035
 
 The estimated MSE does not decrease further towards zero past around 0.01 because the 
 generating the target includes a normally distributed random number term with a standard
@@ -93,6 +101,36 @@ target. No matter how good the approximation gets, we will always have an error 
 0.01. Note that the value 0.01 is because we consider the mean squared error and the square
 of 0.1 is 0.01.
 
- 
+6.
+The output for the learned function after 20 examples does not look like the plot
+of the target function. This is because the relatively small sample count of 20 does not
+fully sample the input space. The plot is largely flat at a function value of 0 which is
+because there were no samples in these locations of the input space. As a result the
+weights for most locations in the sample space were not updated and remain 0. Each sample
+exaggerates the importance of the observed data thereby creating peaks and valleys that
+dont accurately follow the shape of the target function. 
 
+We have approximately 7 valleys and 4 peaks for a total of 11 peaks and valleys. There
+are approximately 4 peaks/valleys that are sharp. This can be explained by the fact that
+we did not get even sampling close to these points. This causes the sample importance to
+be exaggerated and the resulting value is a sharp peak without smoothing. The smaller peaks
+and valleys are by having multiple samples in the same general area (which smooths the graph)
+or having low values of the function at these points. 
 
+The width of each peak/valley is approximately 1. This is because few peaks or valleys were
+created from multiple samples in the same general area. As a result the peak/valley wasn't 
+smoothed and the peak/valley has a width of approximately 1 tile. 
+
+The number of peaks/valleys is approximately 11, which suggests that 9 samples overlapped
+with previous samples, thereby creating wider peaks/valleys for those 9 samples. These two
+counts added together is on the order of the number of sample of 20.
+
+If the input space was 11x21 with 20 samples, most peaks/valleys would still be created
+from one sample. Therefore, the width of the peak would still be close to 1 tile. However,
+since tiling is 21 tiles in the in1 direction, the peaks/valleys would be thinner in the 
+in1 dimension. 
+
+If we continued to sample past 20 samples, the plot would approach the shape of the target
+plot (see the attached pdf). The change in tiling dimensions would not change the final
+shape of the learned function after many samples because the learned function would 
+approximate the target closely. 

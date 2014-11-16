@@ -5,7 +5,7 @@ from Tilecoder import numTilings, tilecode
 # initialize step size parameter appropriately here
 # initialize your global list of tile indices here
 weights = zeros(968)
-stepSize = 0.01
+stepSize = 0.1 / 8
 tileIndices = [-1] * 8
 
 def f(in1,in2):
@@ -80,5 +80,5 @@ def test2():
         MSE(10000)
     writeF('f10000')
 
-test2()
+test1()
 
