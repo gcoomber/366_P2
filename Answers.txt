@@ -39,9 +39,52 @@ The maximum tile index is the index of the final tile of the last tiling (tiling
 in the tiling). Therefore the last tile of the tiling is 967.
 
 Q6:
+The second and fourth example prints should have similar values because
 
 Output of Tilecoder.py:
 Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 859]
 Tile indices for input ( 4.0 , 2.0 ) are :  [39, 160, 281, 403, 524, 645, 777, 898]
 Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846, 967]
 Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
+
+Part 2:
+Output for 3:
+Georges-MacBook-Air:p2 gcoomber$ python3 SuperLearn.py 
+Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 859]
+Tile indices for input ( 4.0 , 2.0 ) are :  [39, 160, 281, 403, 524, 645, 777, 898]
+Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846, 967]
+Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
+Example ( 0.1 , 0.1 , 2.0 ):     f before learning:  0.0     f after learning :  1.6
+Example ( 4.0 , 2.0 , -1.0 ):     f before learning:  0.0     f after learning :  -0.8
+Example ( 5.99 , 5.99 , 3.0 ):     f before learning:  0.0     f after learning :  2.4
+Example ( 4.0 , 2.1 , -1.0 ):     f before learning:  -0.6     f after learning :  -0.92
+
+The before value of the fourth point should be nonzero because the input coordinates 
+of the fourth point are very close to the input coordinates of the second point (4.0, 2.0)
+vs (4.0, 2.1). If we look at the output of part 1, we can see that the two points share
+indicies of non-zero features, namely 39, 160, 281, 403, 777, and 898. The second point
+updates the weights of these features. The fourth point uses the updated weights to calculate
+the before function value. Since the weights are non-zero for before in point 4, the
+resultant function value is also non-zero.
+
+Output for 4:
+Georges-MacBook-Air:p2 gcoomber$ python3 SuperLearn.py 
+Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 859]
+Tile indices for input ( 4.0 , 2.0 ) are :  [39, 160, 281, 403, 524, 645, 777, 898]
+Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846, 967]
+Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
+The estimated MSE:  0.209008516376
+The estimated MSE:  0.0174981181686
+The estimated MSE:  0.0171877426499
+The estimated MSE:  0.0183802980802
+The estimated MSE:  0.0166367997123
+The estimated MSE:  0.0186092031966
+The estimated MSE:  0.0191537706205
+The estimated MSE:  0.0168075983023
+The estimated MSE:  0.0169131783335
+The estimated MSE:  0.0167831627341
+The estimated MSE:  0.0185154289642
+
+The estimated MSE does not decrease further towards zero past around 0.01 because
+
+
