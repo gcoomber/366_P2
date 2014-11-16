@@ -73,18 +73,26 @@ Tile indices for input ( 0.1 , 0.1 ) are :  [0, 121, 242, 363, 484, 605, 726, 85
 Tile indices for input ( 4.0 , 2.0 ) are :  [39, 160, 281, 403, 524, 645, 777, 898]
 Tile indices for input ( 5.99 , 5.99 ) are :  [108, 241, 362, 483, 604, 725, 846, 967]
 Tile indices for input ( 4.0 , 2.1 ) are :  [39, 160, 281, 403, 535, 656, 777, 898]
-The estimated MSE:  0.209008516376
-The estimated MSE:  0.0174981181686
-The estimated MSE:  0.0171877426499
-The estimated MSE:  0.0183802980802
-The estimated MSE:  0.0166367997123
-The estimated MSE:  0.0186092031966
-The estimated MSE:  0.0191537706205
-The estimated MSE:  0.0168075983023
-The estimated MSE:  0.0169131783335
-The estimated MSE:  0.0167831627341
-The estimated MSE:  0.0185154289642
+The estimated MSE:  0.25083173424
+The estimated MSE:  0.0704422901425
+The estimated MSE:  0.0262960695014
+The estimated MSE:  0.0163425076605
+The estimated MSE:  0.012811592748
+The estimated MSE:  0.0123895048276
+The estimated MSE:  0.0115280912055
+The estimated MSE:  0.0115022847118
+The estimated MSE:  0.0114634491669
+The estimated MSE:  0.010858950737
+The estimated MSE:  0.0108452742465
 
-The estimated MSE does not decrease further towards zero past around 0.01 because
+The estimated MSE does not decrease further towards zero past around 0.01 because the 
+generating the target includes a normally distributed random number term with a standard
+deviation of 0.1. This means that as we learn and the weights are updated to better approximate
+the target, we will never be able to predict the value produced my the random term in the
+target. No matter how good the approximation gets, we will always have an error of approximately
+0.01. Note that the value 0.01 is because we consider the mean squared error and the square
+of 0.1 is 0.01.
+
+ 
 
 

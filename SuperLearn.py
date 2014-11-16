@@ -5,7 +5,7 @@ from Tilecoder import numTilings, tilecode
 # initialize step size parameter appropriately here
 # initialize your global list of tile indices here
 weights = zeros(968)
-stepSize = 0.1
+stepSize = 0.01
 tileIndices = [-1] * 8
 
 def f(in1,in2):
@@ -27,7 +27,7 @@ def learn(in1,in2,target):
     # Update weights
     for index in tileIndices:
     	weights[index] = weights[index] + stepSize * (target - fValue)
-    #stepSize /= 2
+    #stepSize = stepSize / 1.1
 
 def test1():
    for in1,in2,target in \
